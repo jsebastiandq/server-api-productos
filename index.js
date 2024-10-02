@@ -3,14 +3,21 @@ const routes= require('./routes');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-// Conectamos a MongoDB
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/restapis', {
-    useNewUrlParser: true
-});
+// Configuración de strictQuery
+mongoose.set('strictQuery', false);
 
-// Establecer la opción strictQuery - Quitamos advertencia de QUERY
-mongoose.set('strictQuery', true);
+// Configuracion de MongoDB
+const connectDB = async () => {
+  try {
+    await mongoose.connect('mongodb://localhost/restapis', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('Conexión a MongoDB exitosa');
+  } catch (err) {
+    console.error('Error al conectar a MongoDB', err);
+  }
+};
 
 //Creamos el servidor
 const app = express();
@@ -22,5 +29,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Rutas de la app
 app.use('/', routes());
 
-//Puerto
-app.listen(5000);
+// Conectamos MongoDB
+connectDB();
+
+//Puerto del Servidor
+app.listen(5001);
