@@ -48,5 +48,14 @@ module.exports = function() {
     // Ver todos los pedidos
     router.get('/pedidos', pedidosController.mostrarPedidos);
 
+    // Ver pedido por ID
+    router.get('/pedido/:idPedido', pedidosController.mostrarPedido);
+
+    // Actualizar pedido por ID
+    router.put('/pedido/:idPedido', pedidosController.actualizarPedido);
+
+    // Eliminar pedido por ID
+    router.delete('/pedido/:idPedido', pedidosController.eliminarPedido);
+
     return router;
 }
