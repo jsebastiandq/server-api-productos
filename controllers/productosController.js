@@ -55,3 +55,63 @@ exports.nuevoProducto = async (req, res, next) => {
         next();
     }
 }
+
+// Mostrar todos los productos
+exports.mostrarProductos = async (req, res, next) => {
+    try {
+        const productos = await Productos.find({});
+        res.json(productos)
+    } catch (error) {
+        console.log(error);
+        next();
+    }
+}
+
+// Muestra un producto por su ID
+exports.mostrarProducto = async(req, res, next) => {
+    const producto = await Productos.findById(req.params.idProducto);
+
+    if(!producto) {
+        res.json({mensaje: "Ese producto no existe"});
+        next();
+    }
+    // Mostrar producto
+    res.json(producto)
+}
+
+// Actualiza producro por ID
+exports.actualizarProducto = async(req, res, next) => {
+    try {
+        // Construir un nuevo producto 
+        let nuevoProducto = req.body; 
+
+        // Verificar una nueva imagen 
+        if(req.file){
+            nuevoProducto.imagen = req.file.filename;
+        } else {
+            let productoAnterior = await Productos.findById(req.params.idProducto); 
+            nuevoProducto.imagen = productoAnterior.imagen;
+        }
+
+        let producto = await Productos.findOneAndUpdate({_id : req.params.idProducto}, nuevoProducto, {
+            new: true
+        }); 
+    
+        res.json(producto);
+    } catch (error) {
+        console.log(error);
+        next();
+    }
+}
+
+// Eliminar un producto
+
+exports.eliminarProducto = async(req, res, next) => {
+    try {
+        await Productos.findByIdAndDelete({_id : req.params.idProducto });
+        res.json({mensaje : "El producto ha sido eliminado"});
+    } catch (error) {
+        console.log(error);
+        next();
+    }
+}

@@ -9,10 +9,7 @@ mongoose.set('strictQuery', false);
 // Configuracion de MongoDB
 const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb://localhost/restapis', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect('mongodb://localhost/restapis');
     console.log('Conexión a MongoDB exitosa');
   } catch (err) {
     console.error('Error al conectar a MongoDB', err);
@@ -33,4 +30,4 @@ app.use('/', routes());
 connectDB();
 
 //Puerto del Servidor
-app.listen(5001);
+app.listen(3000);
