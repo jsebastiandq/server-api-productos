@@ -3,6 +3,9 @@ const routes= require('./routes');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
+// CORS permite que un cliente se conecte
+const cors = require('cors');
+
 // Configuración de strictQuery
 mongoose.set('strictQuery', false);
 
@@ -22,6 +25,7 @@ const app = express();
 // Habilitar Body Parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(cors());
 
 // Rutas de la app
 app.use('/', routes());
@@ -30,4 +34,4 @@ app.use('/', routes());
 connectDB();
 
 //Puerto del Servidor
-app.listen(3000);
+app.listen(3001);
